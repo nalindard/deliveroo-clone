@@ -1,0 +1,224 @@
+// pages/MenuPage.tsx
+import { FC, useState } from 'react'
+import {
+    // LoaderFunctionArgs,
+    useLoaderData,
+    // useParams,
+    // useSearchParams,
+} from 'react-router-dom'
+import MenuHeader from '../components/pages/menu/MenuHeader'
+import NavigationGroup from '../components/pages/menu/NavigationGroup'
+// import Carousel from '../components/base/Carousel'
+import Carousel2 from '../components/shared/Carousel2'
+import FeaturedSection from '../components/pages/menu/FeaturedSection'
+import DishCard from '../components/shared/DishCard'
+// import { Icon } from '@iconify/react/dist/iconify.js'
+// import Button from '../components/shared/Button'
+// import Model from '../components/app/Model'
+// import Counter from '../components/shared/Counter'
+import Basket from '../components/shared/Basket'
+import { createPortal } from 'react-dom'
+import DishDetails from '../components/shared/DishDetails'
+import { RestaurantDataResponse } from '../types'
+// import { useInView } from 'react-intersection-observer'
+
+// type MenuPageParams = {
+//     city: string
+//     area: string
+//     restaurant: string
+// }
+
+type IFeaturedSection = {
+    id: string
+    text: string
+    // featured?: boolean
+}
+
+const MenuPage: FC = () => {
+    // const { city, area, restaurant } = useParams<MenuPageParams>() // Capture dynamic segments
+    // const [searchParams] = useSearchParams() // Capture query parameters
+    // const { ref, inView, entry } = useInView({
+    //     threshold: 0,
+    //     rootMargin: '-350px',
+    // })
+    const [viewingSection, setViewingSection] = useState<string | null>(
+        'another-special'
+    )
+
+    // Extract query parameters with optional chaining
+    // const day = searchParams.get('day') || ''
+    // const geohash = searchParams.get('geohash') || ''
+    // const time = searchParams.get('time') || ''
+
+    const z: IFeaturedSection[] = [
+        { id: 'platters', text: 'Platters' },
+        { id: 'house-specials', text: 'House Specials' },
+        { id: 'create-your-own', text: 'Create your own' },
+        { id: 'salads', text: 'Salads' },
+        { id: 'gym-food', text: 'Gym food' },
+        { id: 'hot-power-bowls', text: 'Hot Power Bowls' },
+        { id: 'rainbow-wraps', text: 'Rainbow Wraps' },
+        { id: 'vegan-menu', text: 'Vegan Menu' },
+        { id: 'snacks-&-sides', text: 'Snacks & Sides' },
+        { id: 'yoghurt-&-fruit', text: 'Yoghurt & fruit' },
+    ]
+
+    const [featuredSections] = useState<IFeaturedSection[]>(z)
+
+    const actionData = useLoaderData() as RestaurantDataResponse // Access the loaded data
+    console.log(actionData)
+
+    // const updateViewingSection = ({ id }: { id: string; view: string }) => {
+    const updateViewingSection = ({ id }: { id: string }) => {
+        // alert("id: "+ id)
+        setViewingSection(id)
+
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }) // TODO Issue with scrollIntoView
+    }
+
+    const [showModal, setShowModal] = useState(false)
+
+    return (
+        <div className={showModal ? 'h-screen overflow-hidden' : ''}>
+            {/* <div className='xl:[width:calc(100%_-_2_*_64px)] mx-auto'> */}
+            <div>
+                <MenuHeader restaurentData={actionData} />
+            </div>
+
+            <div className='sticky top-14 sm:top-[71px] z-50 shadow'>
+                {/* {'inView' + inView}
+                {JSON.stringify(entry)}
+                <span className='bg-accent text-background-primary'>
+                    {viewingSection}
+                </span> */}
+                <NavigationGroup
+                    navTags={featuredSections}
+                    activeId={viewingSection as string}
+                    onNavigationRequest={updateViewingSection}
+                />
+            </div>
+
+            <button
+                className='z-[1000000] bg-white'
+                onClick={() => setShowModal(true)}>
+                show model
+            </button>
+            {/* {showModal &&
+
+            <Model >
+                <div className='bg-background-secondary w-40 h-96'>
+                </div>
+            </Model>
+} */}
+
+            {/* <div className='fixed top-0 left-0 w-screen h-screen bg-black z-[1000]'></div> */}
+
+            <div className='relative xl:flex sm:px-4 xl:px-12'>
+                <main className='bg-background-secondary pt-7 px-3 sm:w-[calc(100%_-_2*16px)] sm:mx-auto sm:bg-background-primary xl:bg-background-secondary lg xl:relative xl:w-[60%]'>
+                    {/* <div className='xl:w-1/2'> */}
+
+                    <p className='text-sm text-foreground-secondary'>
+                        Adults need around 2000 kcal a day
+                    </p>
+                    {/* <p className='text-xs'>
+                    {
+                        JSON.stringify(actionData)
+                    }
+                    </p> */}
+
+                    <FeaturedSection
+                        title='Popular with other people'
+                        id='popular-with-other-people'
+                        layout='horizontal'
+                        onVisible={updateViewingSection}>
+                        <Carousel2>
+                            {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                                (i) => (
+                                    <DishCard
+                                        key={i}
+                                        name='Parmesan Chicken Salad'
+                                        price='£69.99'
+                                        // desc='A feast for 6 people! halloumi with pesto, roasted peppers, roasted tomatoes, sweet potato, pickled red onion and balsamic dressing served on a mixed leaf base.'
+                                        // highlight='Popular'
+                                        kcal='325 kcal'
+                                        layout='vertical'
+                                        image='/images/image-dish.webp'
+                                    />
+                                )
+                            )}
+                        </Carousel2>
+                    </FeaturedSection>
+
+                    {featuredSections.map(({ id, text }) => {
+                        return (
+                            <FeaturedSection
+                                title={text}
+                                id={id}
+                                key={id}
+                                layout='horizontal'
+                                onVisible={updateViewingSection}>
+                                <div
+                                    className='space-y-0.5 2xl:*:w-1/3 2xl:gap-4 2xl:flex 2xl:flex-wrap 2xl:*:flex-grow'
+                                    // ref={ref}
+                                >
+                                    {Array.from(
+                                        { length: 10 },
+                                        (_, i) => i + 1
+                                    ).map((i) => (
+                                        <DishCard
+                                            key={i}
+                                            name='Parmesan Chicken Salad'
+                                            price='£69.99'
+                                            desc='A feast for 6 people! halloumi with pesto, roasted peppers, roasted tomatoes, sweet potato, pickled red onion and balsamic dressing served on a mixed leaf base.'
+                                            // highlight='Popular'
+                                            // kcal='325 kcal'
+                                            layout='horizontal'
+                                            image='/images/image-dish.webp'
+                                            // disabled={true}
+                                        />
+                                    ))}
+                                    {/* <Counter /> */}
+                                </div>
+                            </FeaturedSection>
+                        )
+                    })}
+                </main>
+
+                <aside className='hidden xl:block flex-grow h-screen pt-7 pl-5 bg-background-secondary sticky top-[calc(72px_+_80px)]'>
+                    <Basket />
+                </aside>
+            </div>
+
+            {/* <h1>Menu for {restaurant?.replace(/-/g, ' ')}</h1>
+            <p>
+                Location: {area?.replace(/-/g, ' ')}, {city}
+            </p>
+            <p>Order day: {day}</p>
+            <p>Geohash: {geohash}</p>
+            <p>Time: {time}</p> */}
+
+            {createPortal(
+                <div
+                    onClick={() => setShowModal(!true)}
+                    className={
+                        `fixed top-0 left-0 w-screen h-screen bg-black z-[1000] duration-300 ` +
+                        (showModal
+                            ? 'bg-opacity-50 visible pointer-events-auto'
+                            : 'bg-opacity-10 invisible pointer-events-none')
+                    }>
+                    {/* <button
+                        className='z-[1000000] bg-white pointer-events-auto'
+                        onClick={() => setShowModal(!true)}>
+                        close model
+                    </button> */}
+
+                    
+                    <DishDetails onClose={() => setShowModal(!showModal)} visible={showModal} className={(showModal ? '!scale-100 duration-300 delay-300' : '!scale-90 invisible')} />
+                </div>,
+                document.getElementById('model') as HTMLElement
+            )}
+        </div>
+    )
+}
+
+export default MenuPage

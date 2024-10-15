@@ -1,0 +1,22 @@
+const path = require('path');
+
+module.exports = {
+    'config': path.resolve('configs', 'database.json'),
+    // 'config': path.resolve('configs', 'config.cjs'),
+    // 'config': path.resolve('configs', 'db.config.js'),
+    'models-path': path.resolve('src', 'models'),
+    'seeders-path': path.resolve('src', 'seeders/delete'),
+    'migrations-path': path.resolve('src', 'migrations')
+};
+
+// const path = require('path');
+
+// module.exports = {
+//   'config': path.resolve('configs', 'database.json'),
+//   'models-path': path.resolve('src', 'models'),
+//   'seeders-path': path.resolve('src', 'seeders'),
+//   'migrations-path': path.resolve('src', 'migrations'),
+//   'migrations-source-path': path.resolve('src', 'migrations'),
+//   'seeders-source-path': path.resolve('src', 'seeders'),
+//   'migrationTemplate': path.resolve('src/migrations/migration-template.ts')
+// };

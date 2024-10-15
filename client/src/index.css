@@ -1,0 +1,177 @@
+/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background-primary text-foreground-primary font-ibm-plex-sans relative min-h-dvh w-full;
+  }
+
+  ::-webkit-scrollbar {
+    display: none !important;
+    height: 0 !important;
+  }
+
+}
+
+@layer components {
+  .width-strict {
+    @apply max-w-[1920px];
+  }
+  .max-width-strict {
+    @apply max-w-[1408px];
+  }
+
+  .side-link {
+    @apply text-accent cursor-pointer;
+  }
+
+  .focus-ring {
+    @apply [box-shadow:_0_0_0_3px_rgba(0,204,188,.3)] transition-all duration-200
+  }
+  .focus-ring-invisible {
+    @apply [box-shadow:_0_0_0_3px_rgba(0,204,188,.0)] transition-all duration-200
+  }
+
+  .ring-primary {
+    @apply focus-within:ring-2 focus-within:ring-black outline-none;
+  }
+  .ring-accent {
+    @apply focus-within:ring-2 focus-within:ring-black outline-none;
+  }
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-regular.woff') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-thin.woff') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-extralight.woff') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-light.woff') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-regular.woff') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-medium.woff') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-semibold.woff') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-bold.woff') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-extrabold.woff') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stratos';
+  src: url('/fonts/stratos/stratosweb-black.woff') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  src: url('/fonts/ibm-plex-sans/IBMPlexSans-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
