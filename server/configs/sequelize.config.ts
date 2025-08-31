@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize'
 
 const sequelize = new Sequelize(
-    'sequelize44', //  your_database_name
+    'deliveroo', //  your_database_name
     'root', // 'your_username',
-    '', // 'your_password',
+    'root', // 'your_password',
     {
         host: 'localhost',
         dialect: 'mysql',
