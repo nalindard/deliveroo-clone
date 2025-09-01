@@ -1,13 +1,6 @@
 import { format } from "date-fns";
 
 export function formatDateInDBFormat(date: Date): string {
-    // const day = date.getDate().toString().padStart(2, '0')
-    // const month = (date.getMonth() + 1).toString().padStart(2, '0')
-    // const year = date.getFullYear().toString()
-    // return `${day}/${month}/${year}`
-
-    // console.log('date-fns', date)
-
     return format(date, 'yyyy-MM-dd HH:mm:ss')
 }
 

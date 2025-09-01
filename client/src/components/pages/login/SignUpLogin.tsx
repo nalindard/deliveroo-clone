@@ -21,23 +21,6 @@ const SignUpLogin: FC = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    // const handleSuccess = (googleUser: unknown) => {
-    //     console.log('Google User:', googleUser)
-    // }
-    // window.handleSuccess = handleSuccess
-
-    // useEffect(() => {
-    //     // @ts-expect-error google apis are not typed, loaded from a cdn
-    //     window.google.accounts.id.initialize({
-    //         client_id: '',
-    //         callback: handleSuccess
-    //     })
-    // }, [])
-
-    // const login = useGoogleLogin({
-    //     onSuccess: (codeResponse) => console.log(codeResponse),
-    //     flow: 'auth-code',
-    // })
     const login = useGoogleLogin({
         onSuccess: async ({ access_token, expires_in, scope, token_type }) => {
             console.log(access_token, expires_in, scope, token_type)
@@ -61,24 +44,6 @@ const SignUpLogin: FC = () => {
                 syncUser()(dispatch)
                 navigate('/')
             }
-
-            // async function getGoogleUserData(access_token: string) {
-            //     try {
-            //         const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`, {
-            //             method: 'GET',
-            //             headers: {
-            //                 Authorization: `Bearer ${access_token}`,
-            //             },
-            //         });
-            //         const data = await response.json();
-            //         console.log(data);
-
-            //         return data;
-            //     } catch (error) {
-            //         throw new Error('Failed to fetch user info: ' + error);
-            //     }
-            // }
-            // await getGoogleUserData(access_token)
         },
         onError: (error) => alert(error),
         scope: 'openid email profile',
@@ -137,17 +102,12 @@ const SignUpLogin: FC = () => {
         return
     }
 
-    // const handleGoogle = async () => {
-    //     // @ts-expect-error Cannot find name 'google'. (google apis are not typed, loaded from a cdn)
-    //     google.accounts.id.prompt()
-    //     console.log('Google')
-    // }
+
 
     return !viewEmail ? (
         <SlideView>
             <h2
                 className='text-2xl font-semibold '
-                // onClick={() => setViewEmail((viewEmail) => !viewEmail)}
             >
                 Sign up or log in
             </h2>

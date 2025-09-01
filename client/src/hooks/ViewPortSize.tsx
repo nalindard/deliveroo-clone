@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-// import viewport from '../../constants/viewport'
 
 type ViewPortSize = {
     xs: boolean
@@ -34,14 +33,6 @@ const useViewPortSize = (): Size  => {
                 xl: width >= 960 && width < 1280,
                 '2xl': width >= 1280,
             })
-            // setViewPortSize({
-            //     xs: width < viewport.xs,
-            //     sm: width >= viewport.xs && width < viewport.sm,
-            //     md: width >= viewport.sm && width < viewport.md,
-            //     lg: width >= viewport.md && width < viewport.lg,
-            //     xl: width >= viewport.lg && width < viewport.xl,
-            //     '2xl': width >= viewport['2xl'],
-            // })
         }
 
         window.addEventListener('resize', handleResize)

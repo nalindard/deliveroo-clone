@@ -9,24 +9,16 @@ import Basket from '../components/shared/Basket'
 import { createPortal } from 'react-dom'
 import DishDetails from '../components/shared/DishDetails'
 import { RestaurantDataResponse } from '../types'
-// import { useInView } from 'react-intersection-observer'
 
 type IFeaturedSection = {
     id: string
     text: string
 }
 
-// type MenuPageParams = {
-//     city: string
-//     area: string
-//     restaurant: string
-// }
-
 const MenuPage: FC = () => {
     const [viewingSection, setViewingSection] = useState<string | null>()
     const [isNavigating, setIsNavigating] = useState<boolean>(false)
     const [showModal, setShowModal] = useState(false)
-    // const { restaurant } = useParams<MenuPageParams>()
 
     const actionData = useLoaderData() as RestaurantDataResponse // Access the loaded data
 
@@ -60,14 +52,6 @@ const MenuPage: FC = () => {
             setViewingSection(id)
         }
     }
-
-    // useEffect(() => {
-    //     if (showModal) {
-    //         document.body.classList.add('overflow-hidden')
-    //     } else {
-    //         document.body.classList.remove('overflow-hidden')
-    //     }
-    // }, [showModal])
 
     const handleMeunClick = (id: string) => {
         // alert(id)
@@ -194,11 +178,6 @@ const MenuPage: FC = () => {
                             ? 'bg-opacity-50 visible pointer-events-auto'
                             : 'bg-opacity-10 invisible pointer-events-none')
                     }>
-                    {/* <button
-                        className='z-[1000000] bg-white pointer-events-auto'
-                        onClick={() => setShowModal(!true)}>
-                        close model
-                    </button> */}
 
                     <DishDetails
                         dishId={featuredDishId}

@@ -7,9 +7,6 @@ export async function varifyGoogleTokenAndGetData(token: string) {
         const ticket = await client.verifyIdToken({
             idToken: token,
             audience: defaultConfig.google_client_id,
-            //   audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-            // Or, if multiple clients access the backend:
-            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         })
         const payload: TokenPayload | null = ticket.getPayload() ?? null
 
@@ -67,26 +64,7 @@ export async function varifyGoogleTokenAndGetDataByAccessToken(token: string) {
     } catch (error) {
         throw new Error('Failed to fetch user info: ' + error)
     }
-    // }
-    // await getGoogleUserData(access_token)
 }
-
-// {
-//     "iss": "https://accounts.google.com",
-//     "azp": "964450336282-bq1blill2vvvflos0umk36js4v2vf96u.apps.googleusercontent.com",
-//     "aud": "964450336282-bq1blill2vvvflos0umk36js4v2vf96u.apps.googleusercontent.com",
-//     "sub": "108254096058943600744",
-//     "email": "nalinda.intern.emg@gmail.com",
-//     "email_verified": true,
-//     "nbf": 1727434354,
-//     "name": "Nalinda Dissanayake",
-//     "picture": "https://lh3.googleusercontent.com/a/ACg8ocJJUxyjZCSfPd6HRNuXsZwTlqJbsgNDCoXTJbttEqeVUyz2kA=s96-c",
-//     "given_name": "Nalinda",
-//     "family_name": "Dissanayake",
-//     "iat": 1727434654,
-//     "exp": 1727438254,
-//     "jti": "da2ba147148f445199e46c76d155de5438828316"
-//   }
 
 type googleTokenPayload = {
     iss: string

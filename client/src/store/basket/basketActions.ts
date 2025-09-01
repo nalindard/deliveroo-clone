@@ -1,13 +1,10 @@
-// import { UnknownAction } from '@reduxjs/toolkit'
 import { UnknownAction, Dispatch } from '@reduxjs/toolkit'
-// import { Dispatch } from 'react'
 import {
     setBasketLoading,
     replaceBasket,
     addItemToBasket,
     setBasketId,
 } from './basketSlice'
-// import { IBasketItem } from '../../types'
 import fetchData from '../../api/FetchData'
 import {
     BasketCreateionResponse,
@@ -64,8 +61,7 @@ async function fetchBasketData(
                 withAuth: true,
             }
         )
-        // console.log('getBasketData:', data)
-        // console.log(data?.data[0])
+
         if (ok) {
             return { ok, data: data?.data[0] ?? null, error }
         }
@@ -111,18 +107,6 @@ export const getBasketData = (userId: string | null, restaurantId: string) => {
         }
     }
 }
-// export const sendBasketData = (basket: IBasketItem[]) => {
-//     return async (dispatch: Dispatch<UnknownAction>) => {
-//         try {
-//             await wait(1000)
-//             // dispatch(setBasketLoading({ basketLoading: false }))
-//             // dispatch(replaceBasket([]))
-//             dispatch(replaceBasket(basket))
-//         } catch (error) {
-//             console.error(error)
-//         }
-//     }
-// }
 
 async function postBasketItem(
     basketId: string,
@@ -130,7 +114,6 @@ async function postBasketItem(
     amount: number
 ) {
     try {
-        // basket/28f2c1d9-c8ae-4e3d-891e-e3d82bd7b3a5/items
         if (!basketId || !dishId || !amount) {
             return { ok: false, data: null, error: 'Failed to add item to basket' }            
         }

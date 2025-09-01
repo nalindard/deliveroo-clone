@@ -6,7 +6,6 @@ export default async function errors(
     res: Response,
     next: NextFunction
 ): Promise<void> {
-    // console.error('Error from modified request:', req?.error)
     console.log('🔴 ---------------------------------------------------------')
     console.error('Error from middleware parameters:', err)
     console.log('🔴 ---------------------------------------------------------')

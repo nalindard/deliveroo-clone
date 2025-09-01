@@ -1,9 +1,10 @@
 import { Sequelize } from 'sequelize'
 
 const sequelize = new Sequelize(
-    'deliveroo', //  your_database_name
-    'root', // 'your_username',
-    'root', // 'your_password',
+    // @TODO: Have to load from ENV
+    'deliveroo',
+    'root',
+    '0000',
     {
         host: 'localhost',
         dialect: 'mysql',

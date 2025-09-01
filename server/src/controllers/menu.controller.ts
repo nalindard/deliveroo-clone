@@ -84,14 +84,3 @@ export default class MenuController {
         }
     }
 }
-
-// export default {
-//     getAllMenusById,
-//     getAllMenus,
-//     getMenuById,
-//     addMenu,
-//     updateMenuById,
-//     deleteMenuById,
-// }
-
-// export default new MenuController()

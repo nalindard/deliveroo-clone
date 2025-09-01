@@ -31,19 +31,6 @@ const options: swaggerJsdoc.Options = {
 
 export const swaggerSpec = swaggerJsdoc(options)
 
-// function swaggerDocs(app: Express, port: number) {
-//     // Swagger page,
-//     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-
-//     // Swagger JSON,
-//     app.get('/docs.json', (req, res) => {
-//         res.setHeader('Content-Type', 'application/json')
-//         res.status(200).send(swaggerSpec)
-//     })
-// }
-
-// export default swaggerDocs
-
 export function swaggerDocsJson(
     req: Request,
     res: Response,
@@ -52,5 +39,4 @@ export function swaggerDocsJson(
     res.setHeader('Content-Type', 'application/json')
     res.status(200).send(swaggerSpec)
 
-    // next()
 }

@@ -47,7 +47,6 @@ export default class BasketController {
     async getBaskets(req: Request, res: Response, next: NextFunction) {
         try {
             const { userId, restaurantId } = req.query
-            // console.log('userId, restaurantId: ', userId, restaurantId)
 
             const result = await basketService.getBaskets({
                 userId: userId as string,
@@ -88,17 +87,14 @@ export default class BasketController {
     async addBasketItemById(req: Request, res: Response, next: NextFunction) {
         try {
             const { id: basketId } = req.params
-            // const { dishId, amount, orderId, priceInCents } = req.body
             const { dishId, amount, orderId } = req.body
             const result = await basketService.addBasketItemById(basketId, {
-                // dishId, amount, orderId, priceInCents
                 dishId,
                 amount,
                 orderId,
             })
 
             if (result.success) {
-                // console.log(result)
                 return res.status(200).json({
                     message: 'Item added to basket successfully',
                     data: result.data,
@@ -117,8 +113,6 @@ export default class BasketController {
     async removeBasketItem(req: Request, res: Response, next: NextFunction) {
         try {
             const { id: basketId, itemId } = req.params
-            // const { id } = req.body
-            // console.log('basketId, itemId: ', basketId, itemId)
 
             const result = await basketService.removeBasketItem(
                 basketId,
@@ -165,14 +159,3 @@ export default class BasketController {
         }
     }
 }
-
-// export default {
-//     createBasket,
-//     getBasketById,
-//     getBaskets,
-//     addBasketItemById,
-//     removeBasketItem,
-//     deleteBasketById,
-// }
-
-// export default new BasketController()

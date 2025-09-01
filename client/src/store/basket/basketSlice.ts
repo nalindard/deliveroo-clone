@@ -25,14 +25,12 @@ const basketSlice = createSlice({
             items.push(newBasketItem)
         },
         removeItemFromBasket: ({ items }, { payload: newBasketItem }: { payload: IBasketItem }) => {
-            // state.popularDishes = action.payload
             if (!items.some((item) => item.itemId === newBasketItem.itemId)) {
                 throw new Error('Item not in basket')
             }
             items.splice(items.indexOf(newBasketItem), 1)
         },
         replaceBasket: (state, action) => {
-            // state.featuredDishes = action.payload
             state.items = action.payload ?? []
         },
     },

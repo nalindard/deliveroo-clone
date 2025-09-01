@@ -34,21 +34,16 @@ export default class ReportController {
                         return res
                             .status(400)
                             .json({ message: 'Missing parameters: startDay' })
-                    // startDate = getDate(parseInt(startYear as string), parseInt(startMonth as string), parseInt(startDay as string))
-                    // endDate = getDate(parseInt(startYear as string), parseInt(startMonth as string), parseInt(startDay as string), true)
                     startDate = getDate( Number(startYear), Number(startMonth), Number(startDay) )
                     endDate = getDate( Number(startYear), Number(startMonth), Number(startDay), true )
                     break
                 case 'week':
-                    // const weekDates = getStartAndEndOfWeek(parseInt(startYear as string), parseInt(startMonth as string), parseInt(week as string))
                     const weekDates = getStartAndEndOfWeek( Number(startYear), Number(startMonth), Number(week) )
-                    // console.log(weekDates)
 
                     startDate = weekDates.start
                     endDate = weekDates.end
                     break
                 case 'month':
-                    // const monthDates = getStartAndEndOfMonth(parseInt(startYear as string), parseInt(startMonth as string))
                     const monthDates = getStartAndEndOfMonth( Number(startYear), Number(startMonth) )
                     startDate = monthDates.start
                     endDate = monthDates.end
@@ -57,7 +52,6 @@ export default class ReportController {
                     return res.status(400).json({ message: 'Invalid period' })
             }
 
-            // console.log(startDate, endDate);
 
             const results = await reportService.getTotalSales(
                 startDate,
@@ -98,12 +92,9 @@ export default class ReportController {
 
     async getAvgOrderValue(req: Request, res: Response, next: NextFunction) {
         try {
-            // const { startYear, startMonth, startDay, endYear, endMonth, endDay, } = req.query
             const { startYear, startMonth, startDay } = req.query
             const { endYear, endMonth, endDay } = req.query
 
-            // const startDate = getDate(parseInt(startYear as string), parseInt(startMonth as string), parseInt(startDay as string))
-            // const endDate = getDate(parseInt(endYear as string), parseInt(endMonth as string), parseInt(endDay as string), true)
             const startDate = getDate( Number(startYear), Number(startMonth), Number(startDay) )
             const endDate = getDate( Number(endYear), Number(endMonth), Number(endDay), true )
 
@@ -123,11 +114,3 @@ export default class ReportController {
         }
     }
 }
-
-// export default {
-//     getSales,
-//     getTopItems,
-//     getAvgOrderValue,
-// }
-
-// export default new ReportController()

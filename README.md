@@ -1,5 +1,12 @@
 # 🍽️ Food Delivery Platform
 
+
+### Disclaimer
+
+_This project was initially developed as part of an internship assignment in early 2024. It represents an experimental and in-progress phase, where various approaches and techniques were explored. The codebase is not fully finalized or production-ready and has been uploaded to GitHub primarily for reference and archival purposes._
+
+---
+
 <div align="center">
 
 ![Food Delivery Platform](https://img.shields.io/badge/Food%20Delivery-Platform-orange?style=for-the-badge&logo=uber&logoColor=white)

@@ -1,35 +1,3 @@
-// import { useEffect, useState } from 'react'
-
-// export function useFetch(url: string) {
-//     const [data, setData] = useState(null)
-//     const [loading, setLoading] = useState<boolean | null>(null)
-//     const [errors, setErrors] = useState<null | unknown>(null)
-
-//     useEffect(() => {
-//         async function fetchData() {
-//             setLoading(true)
-
-//             try {
-//                 const res = await fetch(url, {
-//                     cache: 'force-cache',
-//                 })
-//                 if (!res.ok) {
-//                     throw 'Response was not ok'
-//                 }
-//                 const data_ = await res.json()
-//                 setData(data_)
-//             } catch (error) {
-//                 setErrors(error)
-//             } finally {
-//                 setLoading(false)
-//             }
-//         }
-
-//         fetchData()
-//     }, [url])
-
-//     return [data, loading, errors]
-// }
 
 import { useState, useEffect, useCallback } from 'react'
 
@@ -54,12 +22,6 @@ interface FetchOptions {
     withAuth?: boolean
 }
 
-// interface FetchResult<T> {
-//     data: T | null
-//     loading: boolean
-//     error: string | null
-//     refetch: () => Promise<void>
-// }
 
 function useFetch(endpoint: string, options: FetchOptions) {
     const {

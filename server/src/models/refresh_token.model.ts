@@ -45,17 +45,15 @@ RefreshToken.init(
         },
 
         // timestamps
-        // createdAt: {
-        //     allowNull: false,
-        //     type: DataTypes.DATE,
-        //     defaultValue: DataTypes.NOW,
-        // },
-        // expiresAt: {
-        //     allowNull: false,
-        //     type: DataTypes.DATE,
-        // },
-        createdAt: DataTypes.DATE,
-        expiresAt: DataTypes.DATE,
+        createdAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
+        },
+        expiresAt: {
+            allowNull: false,
+            type: DataTypes.DATE,
+        },
     },
     {
         sequelize,

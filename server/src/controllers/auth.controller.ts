@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import type { CustomRequest } from '../../types/custom.d'
 import AuthService from '../services/auth.service'
-import {
-    varifyGoogleTokenAndGetDataByAccessToken,
-} from '../utils/oauth_validate.util'
+import { varifyGoogleTokenAndGetDataByAccessToken } from '../utils/oauth_validate.util'
 
 const authService = new AuthService()
 
@@ -20,10 +18,12 @@ export default class AuthController {
                 name,
                 password,
             })
+            
             if (!result.success) {
                 return res.status(400).json({ message: result.message })
             }
-            return res.status(201).json(result)
+            
+            return res.status(201).json(result.data)
         } catch (error) {
             next(error)
         }
@@ -49,19 +49,8 @@ export default class AuthController {
                 case providers.google:
                     // const {googleId, name, email, picture,} = await  varifyGoogleTokenAndGetData(access_token)
                     const { googleId, name, email, picture } =
-                        await varifyGoogleTokenAndGetDataByAccessToken(
-                            access_token
-                        )
+                        await varifyGoogleTokenAndGetDataByAccessToken(access_token)
 
-                    console.log(
-                        '🔵 googleId--->',
-                        googleId,
-                        name,
-                        email,
-                        picture
-                    )
-
-                    // oauthProvider: string, name: string, email: string, oauthId: string, picture: string
                     const result = await authService.registerUserByOAuth({
                         oauthProvider,
                         name,
@@ -69,19 +58,18 @@ export default class AuthController {
                         oauthId: googleId,
                         picture,
                     })
+                    
                     if (!result.success) {
                         return res.status(400).json({ message: result.message })
                     }
-                    return res.status(201).json(result)
+                    
+                    return res.status(201).json(result.data)
                     break
                 default:
                     throw new Error('Unsupported oauth provider')
                     break
             }
 
-            // const result = await AuthService.registerUserByOAuth(token, providers[oauthProvider as keyof typeof providers]);
-            // const result = await AuthService.registerUserByOAuth(token, providers[oauthProvider as keyof typeof providers]);
-            // return res.status(201).json(result);
         } catch (error) {
             next(error)
         }
@@ -91,10 +79,12 @@ export default class AuthController {
         try {
             const { email, password } = req.body
             const result = await authService.loginUser(email, password)
+            
             if (!result.success) {
                 return res.status(400).json({ message: result.message })
             }
-            return res.status(200).json(result)
+            
+            return res.status(200).json(result.data)
         } catch (error) {
             next(error)
         }
@@ -103,13 +93,13 @@ export default class AuthController {
     async getRefreshToken(req: Request, res: Response, next: NextFunction) {
         try {
             const { token } = req.body
-            // console.log('Made to refresh token: token--->', token)
-
             const result = await authService.getNewRefreshToken(token)
+            
             if (!result.success) {
                 return res.status(400).json({ message: result.message })
             }
-            return res.status(200).json(result)
+            
+            return res.status(200).json(result.data)
         } catch (error) {
             next(error)
         }
@@ -143,10 +133,7 @@ export default class AuthController {
 
     async demoProtected(req: CustomRequest, res: Response, next: NextFunction) {
         try {
-            // req.user
-            // console.log('Made to the protected route:', req?.user)
-
-            res.status(200).json('You can access this route')
+            return res.status(200).json({ message: 'You can access this route' })
         } catch (error) {
             next(error)
         }
@@ -154,31 +141,19 @@ export default class AuthController {
 
     async getUser(req: CustomRequest, res: Response, next: NextFunction) {
         try {
-            // req.user
-            if (req?.user?.id) {
-                // console.log('Made to the getUser route:', req?.user)
-                const user = await authService.getUser(req?.user?.id)
-
-                res.status(200).json(user)
-            } else {
-                // Handle the case where req.user.id is undefined
-                res.status(401).json({ message: 'User not found' })
+            if (!req?.user?.id) {
+                return res.status(401).json({ message: 'User not found' })
             }
+
+            const result = await authService.getUser(req.user.id)
+            
+            if (!result.success) {
+                return res.status(404).json({ message: result.message })
+            }
+            
+            return res.status(200).json(result.data)
         } catch (error) {
             next(error)
         }
     }
 }
-
-// export default {
-//     registerUserByPassword,
-//     registerUserByOAuth,
-//     loginUser,
-//     getRefreshToken,
-//     logoutUser,
-//     deleteUser,
-//     demoProtected,
-//     getUser,
-// };
-
-// export default new AuthController()

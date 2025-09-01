@@ -1,6 +1,7 @@
 import Basket from '../models/basket.model'
 import Dish from '../models/dish.model'
 import BasketItem from '../models/order_item.model'
+import { ServiceResponse } from '../types/service.types'
 
 export default class BasketService {
     async createBasket({
@@ -9,7 +10,7 @@ export default class BasketService {
     }: {
         userId: string
         restaurantId: string
-    }) {
+    }): Promise<ServiceResponse<any>> {
         try {
             const basket = await Basket.create({ userId, restaurantId })
             return {
@@ -21,22 +22,16 @@ export default class BasketService {
                 },
             }
         } catch (error: any) {
-            console.error('Error creating basket:', error)
             return {
                 success: false,
                 message: 'Failed to create basket',
-                error: error.errors[0].message,
+                error: error.errors?.[0]?.message || error.message,
             }
-            // throw new Error(`Failed to create basket: ${error.errors[0].message}`)
         }
     }
 
-    async getBasketById(id: string) {
+    async getBasketById(id: string): Promise<ServiceResponse<any>> {
         try {
-            // const basket = await Basket.findByPk(id, {
-            //     include: [BasketItem] // assuming basket has related items
-            // })
-
             const basket = await Basket.findByPk(id, {
                 attributes: ['id', 'userId'],
                 include: [
@@ -44,8 +39,8 @@ export default class BasketService {
                         model: BasketItem,
                         include: [
                             {
-                                model: Dish, // Include the Dish model
-                                required: true, // Ensures that only BasketItems with Dishes are fetched
+                                model: Dish,
+                                required: true,
                                 attributes: [
                                     'id',
                                     'name',
@@ -55,16 +50,16 @@ export default class BasketService {
                             },
                         ],
                     },
-                ], // assuming basket has related items
+                ],
             })
 
-            if (!basket) return { success: false, message: 'Basket not found' }
+            if (!basket) {
+                return { success: false, message: 'Basket not found' }
+            }
 
             return { success: true, data: basket }
         } catch (error) {
-            console.error('Error fetching basket:', error)
             return { success: false, message: 'Error fetching basket', error }
-            // throw new Error(`Failed to fetch basket: ${(error as any).errors[0].message}`)
         }
     }
 
@@ -74,15 +69,13 @@ export default class BasketService {
     }: {
         userId?: string
         restaurantId?: string
-    }) {
+    }): Promise<ServiceResponse<any[]>> {
         try {
-            const whereClause: { [key: string]: string } = userId
-                ? { userId }
-                : {}
-            restaurantId && (whereClause['restaurantId'] = restaurantId)
-            // console.log(whereClause)
+            const whereClause: { [key: string]: string } = userId ? { userId } : {}
+            if (restaurantId) {
+                whereClause['restaurantId'] = restaurantId
+            }
 
-            // const baskets = await Basket.findAll({ where: whereClause, include: [BasketItem]})
             const baskets = await Basket.findAll({
                 where: whereClause,
                 include: [
@@ -91,8 +84,8 @@ export default class BasketService {
                         attributes: { exclude: ['createdAt', 'updatedAt'] },
                         include: [
                             {
-                                model: Dish, // Include the Dish model
-                                required: true, // Ensures that only BasketItems with Dishes are fetched
+                                model: Dish,
+                                required: true,
                                 attributes: {
                                     exclude: ['createdAt', 'updatedAt'],
                                 },
@@ -102,29 +95,24 @@ export default class BasketService {
                 ],
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
             })
-            // console.log(baskets)
 
             return { success: true, data: baskets }
         } catch (error) {
-            console.error('Error fetching baskets:', error)
             return { success: false, message: 'Error fetching baskets', error }
-            // throw new Error(`Failed to fetch baskets: ${(error as any).errors[0].message}`)
         }
     }
 
-    async deleteBasketById(id: string) {
+    async deleteBasketById(id: string): Promise<ServiceResponse> {
         try {
             const basket = await Basket.findByPk(id)
-            if (!basket) return { success: false, message: 'Basket not found' }
+            if (!basket) {
+                return { success: false, message: 'Basket not found' }
+            }
 
             await basket.destroy()
-            return { success: true }
+            return { success: true, message: 'Basket deleted successfully' }
         } catch (error) {
-            console.error('Error deleting basket:', error)
             return { success: false, message: 'Failed to delete basket', error }
-            // throw new Error(
-            //     `Failed to delete basket: ${(error as any).errors[0].message}`
-            // )
         }
     }
 
@@ -135,23 +123,14 @@ export default class BasketService {
             amount,
             orderId,
         }: { dishId: string; amount: number; orderId: string }
-    ) {
+    ): Promise<ServiceResponse<any>> {
         try {
             const basket = await Basket.findByPk(basketId)
-            if (!basket) return { success: false, message: 'Basket not found' }
+            if (!basket) {
+                return { success: false, message: 'Basket not found' }
+            }
 
-            const basketItem = await BasketItem.create(
-                { basketId, dishId, amount, orderId },
-                {
-                    include: [
-                        {
-                            model: Dish,
-                            required: true,
-                            attributes: { exclude: ['createdAt', 'updatedAt'] },
-                        },
-                    ],
-                }
-            )
+            const basketItem = await BasketItem.create({ basketId, dishId, amount, orderId })
 
             return {
                 success: true,
@@ -164,61 +143,43 @@ export default class BasketService {
                 },
             }
         } catch (error: any) {
-            console.error(
-                'Error adding item to basket:',
-                error.errors[0].message
-            )
-            return { success: false, message: 'Failed to add item to basket', error: error.errors[0].message }
-            // throw new Error(
-            //     `Failed to add item to basket: ${error.errors[0].message}`
-            // )
+            return { 
+                success: false, 
+                message: 'Failed to add item to basket', 
+                error: error.errors?.[0]?.message || error.message 
+            }
         }
     }
 
-    async removeBasketItem(basketId: string, id: string) {
+    async removeBasketItem(basketId: string, id: string): Promise<ServiceResponse> {
         try {
             const basketItem = await BasketItem.findOne({
                 where: { basketId, id },
             })
-            if (!basketItem)
+            
+            if (!basketItem) {
                 return { success: false, message: 'Item not found in basket' }
+            }
 
             await basketItem.destroy()
-            return { success: true }
+            return { success: true, message: 'Item removed successfully' }
         } catch (error) {
-            console.error('Error removing item from basket:', error)
             return { success: false, message: 'Failed to remove item from basket', error }
-            // throw new Error(
-            //     `Failed to remove item from basket: ${
-            //         (error as any).errors[0].message
-            //     }`
-            // )
         }
     }
 
-    async updateBasketItem(basketId: string, id: string, amount: number) {
+    async updateBasketItem(basketId: string, id: string, amount: number): Promise<ServiceResponse> {
         try {
             const basketItem = await BasketItem.findOne({ where: { basketId, id } })
-            if (!basketItem) return { success: false, message: 'Item not found in basket' }
+            
+            if (!basketItem) {
+                return { success: false, message: 'Item not found in basket' }
+            }
 
             await basketItem.update({ amount })
-            return { success: true }
+            return { success: true, message: 'Item updated successfully' }
         } catch (error) {
-            console.error('Error updating item in basket:', error)
             return { success: false, message: 'Failed to update item in basket', error }
-            // throw new Error(
-            //     `Failed to update item in basket: ${(error as any).errors[0].message}`
-            // )
         }
     }
 }
-// export default {
-//     createBasket,
-//     getBasketById,
-//     getBaskets,
-//     deleteBasketById,
-//     addBasketItemById,
-//     removeBasketItem,
-// }
-
-// export default new BasketService()

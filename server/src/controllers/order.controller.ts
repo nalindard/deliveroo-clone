@@ -13,8 +13,6 @@ export default class OrderController {
             let userId: string | null = null
             if (req.user) userId = req.user.id ?? null
 
-            // console.log('addOrder', { basketId, status, userId })
-
             if (!userId)
                 return res.status(400).json({ message: 'User not found' })
 
@@ -95,12 +93,6 @@ export default class OrderController {
                 )
             }
 
-            // console.log('filterConditions', filterConditions);
-
-            // const startDate = getDate(Number(startYear), Number(startMonth), Number(startDay))
-            // const endDate = getDate(Number(endYear), Number(endMonth), Number(endDay), true)
-
-            // const result = await OrderService.getOrders({ userId, restaurantId, status, startDate, endDate, sortBy, filterBy })
             const result = await orderService.getOrders(filterConditions)
 
             if (result.success) {
@@ -177,14 +169,3 @@ export default class OrderController {
             next(error)
         }
     }
-}
-
-// export default {
-//     addOrder,
-//     getOrders,
-//     getOrderById,
-//     updateOrderById,
-//     deleteOrderById,
-// }
-
-// export default new OrderController()

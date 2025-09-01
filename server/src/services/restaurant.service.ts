@@ -1,17 +1,9 @@
 import sequelize from '../../configs/sequelize.config'
 import Category from '../models/category.model'
 import Dish from '../models/dish.model'
-import Restaurant, {
-    RestaurantCreationAttributes,
-} from '../models/restaurant.model'
+import Restaurant, { RestaurantCreationAttributes } from '../models/restaurant.model'
 import RestaurentReview from '../models/restaurent_review.model'
-
-type IgetAllRestaurants = {
-    limit?: number
-    offset?: number
-    orderBy?: string
-    sortInvert?: boolean
-}
+import { ServiceResponse, PaginationOptions } from '../types/service.types'
 
 export default class RestaurantService {
     async getAllRestaurants({
@@ -19,18 +11,16 @@ export default class RestaurantService {
         offset,
         orderBy = 'createdAt',
         sortInvert = false,
-    }: IgetAllRestaurants) {
+    }: PaginationOptions): Promise<ServiceResponse<any[]>> {
         try {
             const restaurants = await Restaurant.findAll({
-                limit: limit,
-                offset: offset,
-                // include: [{model: Category, include: [Dish]},Dish],
-                // order: [['createdAt', 'DESC']],
+                limit,
+                offset,
                 order: [[orderBy, sortInvert ? 'DESC' : 'ASC']],
             })
+            
             return { success: true, data: restaurants }
         } catch (error) {
-            // throw new Error(error as unknown as string)
             return {
                 success: false,
                 message: 'Error fetching restaurants',
@@ -39,34 +29,7 @@ export default class RestaurantService {
         }
     }
 
-    // const getPaginatedUsers = async (req, res) => {
-    //     const page = parseInt(req.query.page) || 1; // Default to page 1
-    //     const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-    //     const offset = (page - 1) * limit; // Calculate offset
-
-    //     try {
-    //         const { count, rows } = await User.findAndCountAll({
-    //             limit,
-    //             offset,
-    //             order: [['createdAt', 'DESC']], // Optional: ordering
-    //         });
-
-    //         const totalPages = Math.ceil(count / limit); // Calculate total pages
-
-    //         res.json({
-    //             totalItems: count,
-    //             totalPages,
-    //             currentPage: page,
-    //             users: rows,
-    //         });
-    //     } catch (error) {
-    //         res.status(500).json({ error: error.message });
-    //     }
-    // };
-
-    // module.exports = { getPaginatedUsers };
-
-    async getRestaurantById(restaurantId: string) {
+    async getRestaurantById(restaurantId: string): Promise<ServiceResponse<any>> {
         try {
             const avgRating = await RestaurentReview.findOne({
                 attributes: [
@@ -96,29 +59,21 @@ export default class RestaurantService {
                                         'updatedAt',
                                     ],
                                 },
-                                // attributes:  ['name'] ,
-                                through: { attributes: [] }, // Exclude all attributes from the join table
+                                                through: { attributes: [] },
                             },
                         ],
                         attributes: ['name'],
                     },
-                    // {
-                    //     model: RestaurentReview,
-                    //     attributes: [[sequelize.fn('AVG', sequelize.col('rating')), 'averageRating']],
-                    //     required: false,
-                    // }
                 ],
                 attributes: {
                     exclude: ['locationCordinates', 'createdAt', 'updatedAt'],
                     include: [
                         [
-                            // @ts-expect-error
-                            sequelize.literal(`(${avgRating?.averageRating})`),
+                            sequelize.literal(`(${(avgRating as any)?.averageRating})`),
                             'averageRating',
                         ],
                     ],
                 },
-                // include: {all: true},
             })
             const reviews = await RestaurentReview.findAll({
                 where: { restaurantId },
@@ -157,9 +112,8 @@ export default class RestaurantService {
         }
     }
 
-    async addRestaurant(restaurantData: RestaurantCreationAttributes) {
+    async addRestaurant(restaurantData: RestaurantCreationAttributes): Promise<ServiceResponse<any>> {
         try {
-            // const newRestaurant = await Restaurant.create({ id, name, address, city, area, phone, note, isActive, opensAt, closesAt, ownerId, opensAt, closesAt })
             const newRestaurant = await Restaurant.create(restaurantData)
             return { success: true, data: newRestaurant }
         } catch (error) {
@@ -170,17 +124,19 @@ export default class RestaurantService {
     async updateRestaurantById(
         restaurantId: string,
         updateData: RestaurantCreationAttributes
-    ) {
+    ): Promise<ServiceResponse> {
         try {
             const [affectedRows] = await Restaurant.update(updateData, {
                 where: { id: restaurantId },
             })
+            
             if (affectedRows === 0) {
                 return {
                     success: false,
                     message: 'Restaurant not found or no changes',
                 }
             }
+            
             return { success: true, message: 'Restaurant updated successfully' }
         } catch (error) {
             return {
@@ -191,14 +147,16 @@ export default class RestaurantService {
         }
     }
 
-    async deleteRestaurantById(restaurantId: string) {
+    async deleteRestaurantById(restaurantId: string): Promise<ServiceResponse> {
         try {
             const deletedRows = await Restaurant.destroy({
                 where: { id: restaurantId },
             })
+            
             if (deletedRows === 0) {
                 return { success: false, message: 'Restaurant not found' }
             }
+            
             return { success: true, message: 'Restaurant deleted successfully' }
         } catch (error) {
             return {

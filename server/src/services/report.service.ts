@@ -2,10 +2,10 @@ import { Op, fn, col } from 'sequelize'
 import Order from '../models/order.model'
 import OrderItem from '../models/order_item.model'
 import Dish from '../models/dish.model'
+import { ServiceResponse } from '../types/service.types'
 
 export default class ReportService {
-    // Service to calculate total sales in a given time period
-    async getTotalSales(startingDate: string, endingDate: string) {
+    async getTotalSales(startingDate: string, endingDate: string): Promise<ServiceResponse<any[]>> {
         try {
             const totalSales = await Order.findAll({
                 attributes: [
@@ -16,14 +16,13 @@ export default class ReportService {
                         [Op.between]: [startingDate, endingDate],
                     },
                     status: {
-                        [Op.in]: ['delivered', 'out-for-delivery'], // Only count delivered or in-progress orders
+                        [Op.in]: ['delivered', 'out-for-delivery'],
                     },
                 },
             })
 
             return { success: true, data: totalSales }
         } catch (error) {
-            console.error('Error in getTotalSales service:', error)
             return {
                 success: false,
                 message: 'Failed to get total sales',
@@ -32,8 +31,7 @@ export default class ReportService {
         }
     }
 
-    // Service to get top-selling items by number of orders or total revenue
-    async getTopItems(orderBy: string) {
+    async getTopItems(orderBy: string): Promise<ServiceResponse<any[]>> {
         try {
             const topItems = await OrderItem.findAll({
                 attributes: [
@@ -56,13 +54,11 @@ export default class ReportService {
 
             return { success: true, data: topItems }
         } catch (error) {
-            console.error('Error in getTopItems service:', error)
             return { success: false, message: 'Failed to get top items', error }
         }
     }
 
-    // Service to calculate the average order value in a given time period
-    async getAvgOrderValue(startingDate: string, endingDate: string) {
+    async getAvgOrderValue(startingDate: string, endingDate: string): Promise<ServiceResponse<any>> {
         try {
             const avgOrderValue = await Order.findOne({
                 attributes: [
@@ -73,14 +69,13 @@ export default class ReportService {
                         [Op.between]: [startingDate, endingDate],
                     },
                     status: {
-                        [Op.in]: ['delivered', 'out-for-delivery'], // Only include relevant orders
+                        [Op.in]: ['delivered', 'out-for-delivery'],
                     },
                 },
             })
 
             return { success: true, data: avgOrderValue }
         } catch (error) {
-            console.error('Error in getAvgOrderValue service:', error)
             return {
                 success: false,
                 message: 'Failed to get average order value',
@@ -89,11 +84,3 @@ export default class ReportService {
         }
     }
 }
-
-// export default {
-//     getTotalSales,
-//     getTopItems,
-//     getAvgOrderValue,
-// }
-
-// export default new ReportService()

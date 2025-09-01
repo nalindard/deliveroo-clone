@@ -167,32 +167,6 @@ const DishDetails: FC<DishDetailsProps> = ({
                         <div className=''>
                             {/* Reccommended for selected dish */}
 
-                            {/* <div className='pt-6'>
-                            <h4 className='[font-size:16px] [line-height:22px] font-semibold'>
-                                add a 1 litre juice?
-                            </h4>
-
-                            <div className='pt-4 text-foreground-secondary/50'>
-                                <button className='w-full flex justify-between'>
-                                    <div className='text-left w-3/4'>
-                                        <h4>
-                                            freshly squeezed large ACG juice - 1
-                                            litre
-                                        </h4>
-                                        <p className='text-sm'>no known allergens 351 kcal</p>
-                                    </div>
-
-                                    <div className='w-1/4 flex'>
-                                        <span>+£17.99</span>
-
-                                        <span className='pl-1'>
-                                            <input type='checkbox' />
-                                        </span>
-                                    </div>
-                                </button>
-                            </div>
-                        </div> */}
-
                             <ReccommendedSection title=''>
                                 {Array.from({ length: 6 }, (_, i) => i + 1).map(
                                     (i) => (

@@ -1,7 +1,6 @@
 import { FC, useState } from 'react'
 import Button from '../components/shared/Button'
 import Alert from '../components/shared/Alert'
-// import Counter from '../components/shared/Counter'
 
 const PasswordResetPage: FC = () => {
     const disabled = false

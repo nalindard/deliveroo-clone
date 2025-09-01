@@ -58,7 +58,6 @@ export default class CategoryController {
     async updateCategoryById(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params
-            // const { name } = req.body
 
             const result = await categoryService.updateCategoryById(
                 id
@@ -92,13 +91,3 @@ export default class CategoryController {
         }
     }
 }
-
-// export default {
-//     addNewCategory,
-//     getAllCategoriesByRestaurant,
-//     getCategoryById,
-//     updateCategoryById,
-//     deleteCategoryById,
-// }
-
-// export default new CategoryController()

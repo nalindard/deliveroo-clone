@@ -9,7 +9,6 @@ export default class MenuReviewController {
             const { id: dishId } = req.params
             const reviewData = {
                 userId: req.body.userId,
-                // dishId: req.body.dishId,
                 dishId,
                 rating: req.body.rating,
                 comment: req.body.comment,
@@ -78,12 +77,3 @@ export default class MenuReviewController {
         }
     }
 }
-
-// export default {
-//     addNewReview,
-//     deleteReview,
-//     getAverageRating,
-//     getAllReviewsForDish
-// }
-
-// export default new MenuReviewController()

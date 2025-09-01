@@ -45,8 +45,6 @@ export default class RestaurantController {
 
     async addOneRestaurant(req: Request, res: Response, next: NextFunction) {
         try {
-            // const {id,name,address,city,area,phone,note,isActive,opensAt,closesAt,ownerId,image,titleTags,subTitleTags,locationCordinates, deliveryFeeInCents,  minimumInCents,createdAt, updatedAt} = req.body
-            // const restaurantData: RestaurantCreationAttributes = {id,name,address,city,area,phone,note,isActive,opensAt,closesAt,ownerId, image,titleTags,subTitleTags,locationCordinates, deliveryFeeInCents, minimumInCents}
 
             const { success, data, message } =
                 await restaurantService.addRestaurant(
@@ -107,13 +105,3 @@ export default class RestaurantController {
         }
     }
 }
-
-// export default {
-//     getAllRestaurants,
-//     getOneRestaurant,
-//     addOneRestaurant,
-//     updateOneRestaurant,
-//     deleteOneRestaurant,
-// }
-
-// export default new RestaurantController()

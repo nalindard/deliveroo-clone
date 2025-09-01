@@ -15,11 +15,11 @@ interface BasketAttributes {
 }
 
 export interface BasketCreationAttributes
-    extends Optional<BasketAttributes, 'id'> {}
+    extends Optional<BasketAttributes, 'id'> { }
 
 export interface BasketInstance
     extends Model<BasketAttributes, BasketCreationAttributes>,
-        BasketAttributes {}
+    BasketAttributes { }
 
 class Basket extends Model<
     InferAttributes<Basket>,
@@ -46,8 +46,8 @@ Basket.init(
             //     model: 'users',
             //     key: 'id',
             // },
-            // onUpdate: 'CASCADE',
-            // onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
         },
         userId: {
             type: DataTypes.UUID,
@@ -56,8 +56,8 @@ Basket.init(
                 model: 'users',
                 key: 'id',
             },
-            // onUpdate: 'CASCADE',
-            // onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
         },
         restaurantId: {
             allowNull: false,
@@ -66,8 +66,8 @@ Basket.init(
                 model: 'restaurants',
                 key: 'id',
             },
-            // onUpdate: 'CASCADE',
-            // onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
         },
 
         // timestamps
@@ -77,12 +77,7 @@ Basket.init(
     {
         sequelize,
         tableName: 'baskets',
-        // indexes: [{ unique: true, fields: ['id','userId'] }],
         indexes: [
-            // {
-            //     unique: true,
-            //     fields: ['id', 'userId'],
-            // },
             {
                 unique: true,
                 fields: ['userId', 'restaurantId'],

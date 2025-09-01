@@ -55,15 +55,15 @@ export default function modelAssociations() {
 
     Category.belongsTo(Restaurant, {
         foreignKey: 'restaurantId',
-        // onDelete: 'CASCADE',
-        // onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
 
     // Restaurant has many Categories
     Restaurant.hasMany(Category, {
         foreignKey: 'restaurantId',
-        // onDelete: 'CASCADE',
-        // onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
     })
 
     Order.hasMany(OrderItem, { foreignKey: 'orderId' })
@@ -83,33 +83,4 @@ export default function modelAssociations() {
     Basket.hasMany(OrderItem, { foreignKey: 'basketId' })
     OrderItem.belongsTo(Basket, { foreignKey: 'basketId' })
 
-    // User.hasMany(Order, { foreignKey: 'userId' })
-    // Order.belongsTo(User, { foreignKey: 'userId' })
-
-    // Restaurant.hasMany(Order, { foreignKey: 'restaurantId' })
-    // Order.belongsTo(Restaurant, { foreignKey: 'restaurantId' })
-
-    // Basket.hasMany(OrderItem, { foreignKey: 'basketId' })
-    // OrderItem.belongsTo(Basket, { foreignKey: 'basketId' })
-
-    // Order.hasMany(OrderItem, { foreignKey: 'orderId' })
-    // OrderItem.belongsTo(Order, { foreignKey: 'orderId' })
-
-    // Review.belongsTo(User, { foreignKey: 'userId' })
-    // User.hasMany(Review, { foreignKey: 'userId' })
-
-    // Review.belongsTo(Dish, { foreignKey: 'dishId' })
-    // Dish.hasMany(Review, { foreignKey: 'dishId' })
-
-    // Review.belongsTo(Restaurant, { foreignKey: 'restaurantId' })
-    // Restaurant.hasMany(Review, { foreignKey: 'restaurantId' })
-
-    // Dish.belongsToMany(Category, {
-    //     through: 'DishCategories',
-    //     foreignKey: 'dishId',
-    // })
-    // Category.belongsToMany(Dish, {
-    //     through: 'DishCategories',
-    //     foreignKey: 'categoryId',
-    // })
 }

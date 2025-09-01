@@ -1,5 +1,6 @@
 import RestaurentReview from '../models/restaurent_review.model'
 import sequelize from '../../configs/sequelize.config'
+import { ServiceResponse } from '../types/service.types'
 
 export default class RestaurantReviewService {
     async addNewReview(reviewData: {
@@ -18,7 +19,6 @@ export default class RestaurantReviewService {
 
     async deleteReview(restaurantId: string, reviewId: string) {
         try {
-            // const review = await RestaurentReview.findByPk(reviewId);
             const review = await RestaurentReview.findOne({
                 where: { id: reviewId, restaurantId },
             })
@@ -66,12 +66,3 @@ export default class RestaurantReviewService {
         }
     }
 }
-
-// export default {
-//     addNewReview,
-//     deleteReview,
-//     getAverageRating,
-//     getAllReviewsForRestaurant,
-// };
-
-// export default new RestaurantReviewService()

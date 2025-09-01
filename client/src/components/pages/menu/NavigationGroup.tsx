@@ -2,12 +2,6 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import { FC } from 'react'
 import NavigationTag from '../../shared/NavigationTag'
 
-// type INavTag = {
-//     id: string
-//     text: string
-//     onClick: () => void
-//     active: boolean
-// }
 
 type NavigationGroupProps = {
     // text?: string
@@ -42,30 +36,6 @@ const NavigationGroup: FC<NavigationGroupProps> = ({
                         </li>
                     )
                 })}
-
-                {/* <li className='!bg-accent !text-background-primary font-semibold'>
-                    {text || 'First one'}
-                </li>
-                <li>
-                    <NavigationTag id={''} text={''} onClick={()=>{}} active={false} key={''} />
-                    {text || 'Another Special'}
-                </li>
-                <li>
-                    <NavigationTag id={''} text={''} onClick={()=>{}} active={false} key={''} />
-                    {text || 'Special one'}
-                </li>
-                <li>
-                    <NavigationTag id={''} text={''} onClick={()=>{}} active={false} key={''} />
-                    {text || 'Something Special'}
-                </li>
-                <li>
-                    <NavigationTag id={''} text={''} onClick={()=>{}} active={false} key={''} />
-                    {text || 'Special Something'}
-                </li>
-                <li>
-                    <NavigationTag id={''} text={''} onClick={()=>{}} active={false} key={''} />
-                    {text || 'Lovely Like Her'}
-                </li> */}
             </ul>
             <div className='hidden md:block md:w-1/5 relative text-center xl:flex xl:justify-between'>
                 <button className='text-accent inline-flex justify-center items-center ml-auto'>
